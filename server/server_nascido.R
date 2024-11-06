@@ -652,7 +652,8 @@ output$nascido_graf_gestacao <- renderApex({
           ,
           column(10,
             reactableOutput('nascido_tabela_dinamica'))          
-        )
+        ),
+        tags$button("Baixar como CSV", onclick = "Reactable.downloadDataCSV('nascido_tabdinamica', 'tabela_dinamica.csv')")
       )
     )
   )
@@ -668,7 +669,7 @@ output$nascido_graf_gestacao <- renderApex({
         tab <- dplyr::left_join(tab1, tab2, by = 'Var1', suffix = c('',' (%)'))
         names(tab)[1] <- 'Linha'
 
-        reactable(tab, pagination = F, height = '100%')
+        reactable(tab, pagination = F, height = '100%', elementId = 'nascido_tabdinamica')
 
   })
 
@@ -678,18 +679,26 @@ output$nascido_graf_gestacao <- renderApex({
             tagList(
                    tabler_navtab_menu(
               tabler_navtab_menu_item("Tabela",tabName = "tabelagar",
-              selected = T),
-              tabler_navtab_menu_item("Mapa/Rede",tabName = "mapagar",
-               selected = F)
+              selected = T)#, #sem uso (06-nov-24, 16:25h)
+              #tabler_navtab_menu_item("Mapa/Rede",tabName = "mapagar",
+               #selected = F)
               ),
                    tags$div(
                     tabler_tab_items(  
                     tabler_tabtab_item(
               tabName = "tabelagar", selected = TRUE,
-                    reactableOutput('nascido_tabelagar_out')),
-
-                    tabler_tab_item(tabName = 'mapagar', selected = F, 
-                    leafletOutput('nascido_mapa_rede')
+                  tagList(
+                    fluidRow(
+                    column(12,style = 'float:right;',
+                    tags$h5(style = 'float:right;','Região de Residência'))),
+                   fluidRow(
+                      column(1,
+                      tags$div(style = 'vertical-align:middle;',
+                      h5('Região de ocorrência'))),
+                      column(11,
+                      reactableOutput('nascido_tabelagar_out'))
+                    ),
+        tags$button("Baixar como CSV", onclick = "Reactable.downloadDataCSV('nascido_tabgar', 'tabela_gar.csv')"))
                     )
                     )
                   )
@@ -710,6 +719,6 @@ output$nascido_graf_gestacao <- renderApex({
          #        as.data.frame %>% tidyr::spread(., value = Freq, key = reg_saude.res)
         #names[1] <- 'Região de ocorrência'
 
-        reactable(dadoi, pagination = F, rownames = T, height = '550px')
+        reactable(dadoi, pagination = F, rownames = T, height = '550px', elementId = 'nascido_tabgar')
 
   })
