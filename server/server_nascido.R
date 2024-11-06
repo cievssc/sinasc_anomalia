@@ -60,6 +60,9 @@
                       if(length(input$nascido_parto) == 1){
                         dadoi <- subset(dadoi, cat_parto %in% input$nascido_parto)
                       }
+                      if(length(input$nascido_gestacao) != 6){
+                        dadoi <- subset(dadoi, cat_gestacao %in% input$nascido_gestacao)
+                      }
                     }
                     
                     if(nrow(dadoi) == 0){

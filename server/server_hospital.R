@@ -195,9 +195,9 @@ stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin
    dadoi$ones <- 1
 
    #dado_hosp <- with(dadoi, as.data.frame(table(no_fantasia, nu_latitude, nu_longitude)))
-   dado_hosp <- aggregate(ones ~ no_fantasia + nu_longitude + nu_latitude, data = dadoi, FUN = sum)
-   dado_vag <- aggregate(ones ~ no_fantasia, data = dadoi[which(dadoi$cat_parto == 'Vaginal'),], FUN = sum)
-   dado_hosp <- dplyr::left_join(dado_hosp, dado_vag, by = 'no_fantasia', suffix = c('', '_vag'))
+   dado_hosp <- aggregate(ones ~ codestab + no_fantasia + nu_longitude + nu_latitude, data = dadoi, FUN = sum)
+   dado_vag <- aggregate(ones ~ codestab, data = dadoi[which(dadoi$cat_parto == 'Vaginal'),], FUN = sum)
+   dado_hosp <- dplyr::left_join(dado_hosp, dado_vag, by = 'codestab', suffix = c('', '_vag'))
    dado_hosp$perc <- with(dado_hosp, round(ones_vag*100/ones,2))
    dado_hosp[is.na(dado_hosp)] <- 0
 
@@ -236,3 +236,41 @@ stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin
                       
   }) #observe 
 
+ #-------------------------------------------------------------------------
+ #tabelas
+
+ mod_summary_card_server('hospital_tabela',
+    card_large(heading = 'Síntese por Establecimento de Saúde',
+        reactableOutput('hospital_tabsintese')
+    )
+ )
+
+ output$hospital_tabsintese <- renderReactable({
+    dadoi <- dados_hosp()
+    dadoi$ones <- 1
+    dadoi_cesariano <- aggregate(ones ~ codestab + reg_saude.nasc + no_fantasia + cat_parto, data = dadoi, FUN = sum, na.rm = T) %>%
+    tidyr::spread(., key = cat_parto, value = ones)
+    dadoi_cesariano$total <- apply(dadoi_cesariano[,4:5], 1 ,sum, na.rm = T)
+    dadoi_cesariano$perc  <- with(dadoi_cesariano, round(Cesário*100/total,2))
+    dadoi_cesariano <- dadoi_cesariano[,c(1,2,3,6,7)]
+
+    dadoi_consultas <- aggregate(ones ~ codestab , data = dadoi[which(dadoi$cat_consultas == '7 ou mais'),], sum, na.rm = T)
+    dadoi_prenatal <- aggregate(ones ~ codestab , data = dadoi[which(dadoi$cat_consultas == '7 ou mais' & dadoi$cat_prenatal == 'Até 3º mês'),], sum, na.rm = T)
+    dadoi_gestacao <- aggregate(ones ~ codestab + cat_gestacao, data = dadoi, FUN = sum, na.rm = T) %>%
+    tidyr::spread(., key = cat_gestacao, value = ones)
+
+    dadoi_all <- dplyr::left_join(dadoi_cesariano, dadoi_consultas, by = 'codestab') %>%
+                 dplyr::left_join(., dadoi_prenatal, by = 'codestab') %>%
+                 dplyr::left_join(., dadoi_gestacao, by = 'codestab')
+
+    #TODO organizar melhor os nomes... (05-nov-24, 16:42h)
+    dadoi_all[,c(6:12)] <- sapply(6:12, function(x){
+      dadoi_all[,x] <- round(dadoi_all[,x]*100/dadoi_all$total,2)
+    })
+
+    dadoi_all[,c(1,13)] <- NULL
+    names(dadoi_all)[c(3,4,5,6)] <- c('Total NV', '% cesariana', '7 consultas', '7 consultas até 3ª trim')
+
+    reactable(dadoi_all, pagination = F, groupBy = "reg_saude.nasc")
+
+ })
