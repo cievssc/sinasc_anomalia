@@ -53,8 +53,8 @@
      tabler_tab_items(
                       
       source('./ui/nascidos.R',  local = T, encoding = 'UTF-8')$value
-      #,
-      #source('./ui/casos.R', local = T, encoding = 'UTF-8')$value  
+      ,
+      source('./ui/hospital.R', local = T, encoding = 'UTF-8')$value  
     
        
      ),

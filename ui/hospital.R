@@ -12,7 +12,11 @@
         hr(),
         
         fluidRow(class = 'row-deck row-cards',
-                 mod_summary_card_ui('hospital_tabela', div_class = 'col-md-12')
+                mod_summary_card_ui('hospital_total', div_class = 'col-md-4'),
+                mod_summary_card_ui('hospital_total_pub', div_class = 'col-md-4'),
+                mod_summary_card_ui('hospital_total_priv', div_class = 'col-md-4'),
+                mod_summary_card_ui('hospital_mapa', div_class = 'col-md-12'),
+                mod_summary_card_ui('hospital_tabela', div_class = 'col-md-12')
 
         )
        ) #end div container

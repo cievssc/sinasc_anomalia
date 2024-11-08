@@ -7,7 +7,8 @@
  centroide <- as.data.frame(sf::st_coordinates(centroide))
  centroide <- data.frame('cod6' = municipiosf$cod6, centroide)
               
-
+ dados$codestab <- as.numeric(dados$codestab)
  #agregando os dados de regionais aos dados da sinasc
  dados <- dplyr::left_join(dados, tab_regioes[,c(3:4)], by = c('codmunnasc' = 'cod6')) %>%
-          dplyr::left_join(., tab_regioes[,3:4], by = c('codmunres' = 'cod6'), suffix = c('.nasc', '.res'))
+          dplyr::left_join(., tab_regioes[,3:4], by = c('codmunres' = 'cod6'), suffix = c('.nasc', '.res')) %>%
+          dplyr::left_join(., dado_estab, by = c('codestab' = 'co_cnes'))

@@ -9,8 +9,8 @@
     #nascidos vivos
     source('./server/server_nascido.R', local = T, encoding = 'UTF-8')
 
-    #casos
-    #source('./server/server_casos.R', local = T, encoding = 'UTF-8')
+    #hospital
+    source('./server/server_hospital.R', local = T, encoding = 'UTF-8')
 
     
  }) #end server function
