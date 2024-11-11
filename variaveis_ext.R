@@ -8,5 +8,6 @@
  load('municipiosf.RData')
  
  load('sinasc_data.RData') #dados pre-organizados do sinasc
+ load('tabela_acp.RData') #dicionário para ACP´s
 
  

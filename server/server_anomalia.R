@@ -29,9 +29,9 @@
  
   #organizando os dados
   
-  
   dados_ac <- reactiveVal(NULL)
   
+  filtro_acp <- reactive({tabela_acp}) #TODO incrementar o filtro de ACP ()
 
             observeEvent(dados_all(),{# input$home_atualizar,
              #req(input$anomalia_mapa_leaflet_groups)
@@ -72,7 +72,7 @@
                       ))
                    NULL
                    }else{
-                    dados_nv(dadoi)
+                    dados_ac(dadoi)
                    }
 
                           }) #end observeEvent dados nv
@@ -86,121 +86,60 @@
                             tagList(
                               div(class = 'card-stamp',
                               div(class = 'card-stamp-icon bg-blue',
-                              HTML('<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-align-box-center-middle" width="72" 
-                              height="72" viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"
-  class="icon icon-tabler icons-tabler-outline icon-tabler-baby-carriage">
+                              HTML('<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  
+stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-hearts">
 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-<path d="M8 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-<path d="M18 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-<path d="M2 5h2.5l1.632 4.897a6 6 0 0 0 5.693 4.103h2.675a5.5 5.5 0 0 0 0 -11h-.5v6" />
-<path d="M6 9h14" /><path d="M9 17l1 -3" /><path d="M16 14l1 3" />
+<path d="M14.017 18l-2.017 2l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 0 1 8.153 5.784" />
+<path d="M15.99 20l4.197 -4.223a2.81 2.81 0 0 0 0 -3.948a2.747 2.747 0 0 0 -3.91 -.007l-.28 .282l-.279
+ -.283a2.747 2.747 0 0 0 -3.91 -.007a2.81 2.81 0 0 0 -.007 3.948l4.182 4.238z" />
 </svg>')
                               )),
                               div(class = 'card-body',
-                                h3(class = 'card-title', 'Total de nascidos vivos'),
+                                h3(class = 'card-title', 'Total de NV´s com AC'),
                                  uiOutput('anomalia_total_card')
                               )
                             ) #end withTags
                           )
   
   output$anomalia_total_card <- renderUI({
-                      dadoi <- nrow(dados_nv())
+                      dadoi <- dados_ac()
+                      dadoi <- table(dadoi$idanomal)
                       tagList(
-                      h1(dadoi)#,
-                      #p('Nascidos vivos no estado')
-                      )
-                                       #tagList(tags$div(class = 'text-center display-5 fw-bold my-3',dadoi)
-                   })
-
-   #card total 
-  mod_summary_card_server('anomalia_total', 
-                            tagList(
-                              div(class = 'card-stamp',
-                              div(class = 'card-stamp-icon bg-blue',
-                              HTML('<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-align-box-center-middle" width="72" 
-                              height="72" viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"
-  class="icon icon-tabler icons-tabler-outline icon-tabler-baby-carriage">
-<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-<path d="M8 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-<path d="M18 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-<path d="M2 5h2.5l1.632 4.897a6 6 0 0 0 5.693 4.103h2.675a5.5 5.5 0 0 0 0 -11h-.5v6" />
-<path d="M6 9h14" /><path d="M9 17l1 -3" /><path d="M16 14l1 3" />
-</svg>')
-                              )),
-                              div(class = 'card-body',
-                                h3(class = 'card-title', 'Total de nascidos vivos'),
-                                 uiOutput('anomalia_total_card')
-                              )
-                            ) #end withTags
-                          )
-  
-  output$anomalia_total_card <- renderUI({
-                      dadoi <- nrow(dados_nv())
-                      tagList(
-                      h1(dadoi)#,
-                      #p('Nascidos vivos no estado')
+                      h1(dadoi[1]),
+                      p(paste0('Com prevalência de ', round(dadoi[1]*100/sum(dadoi),2),'%'))
                       )
                                        #tagList(tags$div(class = 'text-center display-5 fw-bold my-3',dadoi)
                    })
 
 
  #card pre natal 
-  mod_summary_card_server('anomalia_total_prenatal', 
+  mod_summary_card_server('anomalia_prioritaria', 
                             tagList(
                               div(class = 'card-stamp',
                               div(class = 'card-stamp-icon bg-blue',
-                              HTML('<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-align-box-center-middle" width="72" 
-                              height="72" viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  
-class="icon icon-tabler icons-tabler-outline icon-tabler-empathize">
-<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-<path d="M12 5.5m-2.5 0a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0 -5 0" />
-<path d="M12 21.368l5.095 -5.096a3.088 3.088 0 1 0 -4.367 -4.367l-.728 .727l-.728 -.727a3.088 3.088 0 1 0 -4.367 4.367l5.095 5.096z" />
+                              HTML('<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  
+stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  
+class="icon icon-tabler icons-tabler-outline icon-tabler-heart-plus">
+<path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 20l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.96 6.053" />
+<path d="M16 19h6" /><path d="M19 16v6" />
 </svg>')
                               )),
                               div(class = 'card-body',
-                                h3(class = 'card-title', 'Pré-natal'),
-                                 uiOutput('anomalia_prenatal_card')
+                                h3(class = 'card-title', 'Anomalias Congênitas Prioritárias'),
+                                 uiOutput('anomalia_prioritaria_card')
                               )
                             ) #end withTags
                           )
   
-  output$anomalia_prenatal_card <- renderUI({
-                      dadoi <- dados_nv()
-                      dadoi <- list(table(dadoi$cat_prenat)[1], table(dadoi$cat_prenat)[1]/sum(table(dadoi$cat_prenat)))
+  output$anomalia_prrioritaria_card <- renderUI({
+                      dadoi <- dados_ac()
+                      tabela_acp <- filtro_acp()
+                      dadoi <- subset(dadoi, idanomal == 1)
+                      ac <- sum(dadoi$idanomal)
+                      acp <- func_acp(dadoi$codanomal, tabela_acp[,1])
                       tagList(
-                      h1(dadoi[[1]]),
-                      p(paste0('realizados até o 3º mês (', round(dadoi[[2]]*100,2),'% do total)'))
-                      )
-                                       #tagList(tags$div(class = 'text-center display-5 fw-bold my-3',dadoi)
-                   })
-
-
-  #card parto 
-  mod_summary_card_server('anomalia_total_parto', 
-                            tagList(
-                              div(class = 'card-stamp',
-                              div(class = 'card-stamp-icon bg-blue',
-                              HTML('<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-align-box-center-middle" width="72" 
-                              height="72"viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  
-class="icon icon-tabler icons-tabler-outline icon-tabler-accessible"><path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-<path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-<path d="M10 16.5l2 -3l2 3m-2 -3v-2l3 -1m-6 0l3 1" />
-<circle cx="12" cy="7.5" r=".5" fill="currentColor" />
-</svg>')
-                              )),
-                              div(class = 'card-body',
-                                h3(class = 'card-title', 'Cesarianos'),
-                                 uiOutput('anomalia_cesario_card')
-                              )
-                            ) #end withTags
-                          )
-  
-  output$anomalia_cesario_card <- renderUI({
-                      dadoi <- dados_nv()
-                      dadoi <- list(table(dadoi$cat_parto)[2], table(dadoi$cat_parto)[2]/sum(table(dadoi$cat_parto)))
-                      tagList(
-                      h1(dadoi[[1]]),
-                      p(paste0('procedimentos realizados (', round(dadoi[[2]]*100,2),'% do total)'))
+                      h1(sum(acp)),
+                      p(paste0('representando ', round(sum(acp)*100/ac,2),'% do total de AC´s)'))
                       )
                                        #tagList(tags$div(class = 'text-center display-5 fw-bold my-3',dadoi)
                    })
@@ -210,27 +149,22 @@ class="icon icon-tabler icons-tabler-outline icon-tabler-accessible"><path strok
 #============================================================================
   #mapa
 
-  mapas <- leaflet() %>%
-        addProviderTiles(providers$CartoDB.Positron,  options = providerTileOptions(minZoom = 7)) %>%
-        setView(lat = -27.5, lng = -51, zoom = 7) 
-    
   mod_summary_card_server('anomalia_mapa', 
                   tagList(
                    tags$div(class = 'card-body', style = 'display:flex;   justify-content:space-between;',
                     #tags$h1(class = 'card-title', 'Mapa'),
                     tabler_navtab_menu(
-            tabler_navtab_menu_item("Mapa",tabName = "mapa1",
+            tabler_navtab_menu_item("Mapa",tabName = "mapa2",
          selected = T),
-            tabler_navtab_menu_item("Tabela",tabName = "tabela1",
+            tabler_navtab_menu_item("Tabela",tabName = "tabela2",
          selected = F)
-         ),
-                    selectInput('anomalia_tipomapa', label = NULL, choices = c('Quantidade NV´s' = 1, '% Pré-natal' = 2, '% Cesarianas' = 3))),
+         )), #end div
                    tags$div(
                     tabler_tab_items(  
            tabler_tabtab_item(
-              tabName = "mapa1", selected = TRUE,
+              tabName = "mapa2", selected = TRUE,
                     leafletOutput('anomalia_mapa_leaflet') ),
-            tabler_tab_item(tabName = 'tabela1', selected = F, 
+            tabler_tab_item(tabName = 'tabela2', selected = F, 
                     reactableOutput('anomalia_tabmapa')
               )
                     )
@@ -246,52 +180,61 @@ class="icon icon-tabler icons-tabler-outline icon-tabler-accessible"><path strok
         })
         
   #reactiveVal para elaboração de tabelas
-  dados_tabmapa <- reactiveVal()
+  dados_ac_tabmapa <- reactiveVal()
   
   observe({
-  req(input$anomalia_tipomapa)
+  #req(input$anomalia_tipomapa)
   req(input$anomalia_mapa_leaflet_groups)
    
-   dadoi <- dados_nv()
+   filtro <-filtro_acp()
+   dadoi <- dados_ac()
+   dadoi <- subset(dadoi, idanomal == 1)
    dadoi$ones <- 1
-
-   vetor <- switch(input$anomalia_tipomapa,
-              '1' = 'ones',
-              '2' = 'cat_prenatal',
-              '3' = 'cat_parto')
+   dadoi$acp <- func_acp(dadoi$codanomal, filtro[,1])
+   
    
    #dados
    if(input$anomalia_mapa_leaflet_groups == 'Municípios'){
-    dados_mapa <- with(dadoi, as.data.frame(table(codmunres, get(vetor)), stringsAsFactors = F)) %>%
-                  tidyr::spread(., value = Freq, key = Var2)
+    dados_mapa <- with(dadoi, as.data.frame(table(codmunres, acp), stringsAsFactors = F)) %>%
+                  tidyr::spread(., value = Freq, key = acp)
+    dados_mapa$Total <- apply(dados_mapa[,-1], 1, sum)
+      if(ncol(dados_mapa) == 3 & any(names(dados_mapa) == 'TRUE')){
+      names(dados_mapa)[2] <- c('ACP')}
+      if(ncol(dados_mapa) == 3 & any(names(dados_mapa) == 'FALSE')){
+      names(dados_mapa)[2] <- c('Outras anomalias')}
+      if(ncol(dados_mapa) == 4){
+      names(dados_mapa)[2:3] <- c('ACP','Outras anomalias')}
+    #names(dados_mapa)[1] <- c('cod6'), 'Outras anomalias'
    }else{
-    dados_mapa <- with(dadoi, as.data.frame(table(reg_saude.res, get(vetor)), stringsAsFactors = F)) %>%
-                  tidyr::spread(., value = Freq, key = Var2)
+    dados_mapa <- with(dadoi, as.data.frame(table(reg_saude.res, acp), stringsAsFactors = F)) %>%
+                  tidyr::spread(., value = Freq, key = acp)
+    if(ncol(dados_mapa) == 2 & any(names(dados_mapa) == 'TRUE')){
+      names(dados_mapa)[2] <- c('ACP')
+      dados_mapa$`Outras anomalias` <- 0
+      dados_mapa$Total <- dados_mapa$ACP}
+      if(ncol(dados_mapa) == 2 & any(names(dados_mapa) == 'FALSE')){
+      names(dados_mapa)[2] <- c('Outras anomalias')
+      dados_mapa$`ACP` <- 0
+      dados_mapa$Total <- dados_mapa$`Outras anomalias`}
+      if(ncol(dados_mapa) == 3){
+      names(dados_mapa)[2:3] <- c('ACP','Outras anomalias')
+      dados_mapa$Total <- apply(dados_mapa[,-1], 1, sum)
+    }
    }
 
-   dados_tabmapa(dados_mapa) #guardando df para construção do mapa
-   
-   if(input$anomalia_tipomapa == '1'){
-    dados_mapa$Freq <- dados_mapa[,2]
-   }
-   if(input$anomalia_tipomapa == '2'){
-    dados_mapa$Freq <- round(dados_mapa[,3]*100/apply(dados_mapa[,-1], 1, sum),2)
-   }
-   if(input$anomalia_tipomapa == '3'){
-    dados_mapa$Freq <- round(dados_mapa[,2]*100/apply(dados_mapa[,-1], 1, sum),2)
-   }
+   dados_tabmapa(dados_mapa) #guardando df para construção do mapa   
     
    if(input$anomalia_mapa_leaflet_groups == 'Municípios'){
     dados_mapa$codmunres <- as.numeric(dados_mapa$codmunres)
-    dados_mapa <- dplyr::left_join(municipiosf, dados_mapa[,c('codmunres', 'Freq')], by = c('cod6' = 'codmunres'))
+    dados_mapa <- dplyr::left_join(municipiosf, dados_mapa, by = c('cod6' = 'codmunres'))
     labellss <- sprintf(
-  "<strong>%s</strong><br/> %s %s" , #  people / mi<sup>2</sup>",
-   dados_mapa$Municipio, 'Valor: ', dados_mapa$Freq) %>% lapply(htmltools::HTML)
+  "<strong>%s</strong><br/> %s %s<br/> %s %s" , #  people / mi<sup>2</sup>",
+   dados_mapa$Municipio, 'Total AC´s: ', dados_mapa$Freq, 'ACP: ', dados_mapa$ACP) %>% lapply(htmltools::HTML)
    }else{
-    dados_mapa <- dplyr::left_join(mapa_regionais, dados_mapa[,c('reg_saude.res', 'Freq')], by = c('reg_saude' = 'reg_saude.res'))
+    dados_mapa <- dplyr::left_join(mapa_regionais, dados_mapa, by = c('reg_saude' = 'reg_saude.res'))
     labellss <- sprintf(
-  "<strong>%s</strong><br/> %s %s" , #  people / mi<sup>2</sup>",
-   dados_mapa$reg_saude, 'Valor: ', dados_mapa$Freq) %>% lapply(htmltools::HTML)
+  "<strong>%s</strong><br/> %s %s<br/> %s %s" , #  people / mi<sup>2</sup>",
+   dados_mapa$reg_saude, 'Total AC´s: ', dados_mapa$Freq, 'ACP: ', dados_mapa$ACP) %>% lapply(htmltools::HTML)
    }
 
    
@@ -347,22 +290,7 @@ class="icon icon-tabler icons-tabler-outline icon-tabler-accessible"><path strok
 
         }
 
-
-if(input$anomalia_tipomapa == '1'){
-    names(dadoi)[2] <- 'Quantidade'
-   }
-if(input$anomalia_tipomapa == '2'){
-   sapply(2:3, function(x){
-    nome <- paste0('Perc.',names(dadoi)[x])
-    dadoi[,nome] <<-  round(dadoi[,x]*100/apply(dadoi[,-1], 1, sum),2)
-   }) 
-   }
-   if(input$anomalia_tipomapa == '3'){
-    sapply(2:4, function(x){
-    nome <- paste0('Perc.',names(dadoi)[x])
-    dadoi[,nome] <<-  round(dadoi[,x]*100/apply(dadoi[,-1], 1, sum),2)
-   }) 
-   }   
+   
   reactable(dadoi, pagination = F, height = '320px')
 
   }))
@@ -399,7 +327,7 @@ if(input$anomalia_tipomapa == '2'){
   #dado em comum para as séries
 
   dado_serie <- reactive({
-            dadoi <- dados_nv()
+            dadoi <- dados_ac()
             #nascidos vivos
             dadoi_nv <- with(dadoi, as.data.frame(table(mes, ano), stringAsFactors = F))
             dadoi_nv$mes_ano <- paste0(dadoi_nv$mes,'-', dadoi_nv$ano)
@@ -519,7 +447,7 @@ if(input$anomalia_tipomapa == '2'){
   })
 
   output$anomalia_graf_peso <- renderApex({
-      dadoi <- dados_nv()
+      dadoi <- dados_ac()
       dadoi <- as.data.frame(table(dadoi$cat_peso))
       if(dadoi[4,2] == 0){
         texto <- NULL
@@ -560,7 +488,7 @@ if(input$anomalia_tipomapa == '2'){
   )
 
 output$anomalia_graf_gestacao <- renderApex({
-                          dadoi <- dados_nv()
+                          dadoi <- dados_ac()
                           
                           dadoi <- with(dadoi, as.data.frame(table(cat_gestacao)))
                          
@@ -596,7 +524,7 @@ output$anomalia_graf_gestacao <- renderApex({
   )
 
  output$anomalia_graf_consulta <- renderApex({
-                          dadoi <- dados_nv()
+                          dadoi <- dados_ac()
                           
                           dadoi <- with(dadoi, as.data.frame(table(cat_consultas, cat_prenatal))) %>%
                                    tidyr::spread(., key = cat_prenatal, value = Freq)
@@ -657,7 +585,7 @@ output$anomalia_graf_gestacao <- renderApex({
 
 
   output$anomalia_tabela_dinamica <- renderReactable({
-        dadoi <- dados_nv()
+        dadoi <- dados_ac()
         tab1 <- with(dadoi, table(get(input$anomalia_tabinput1), get(input$anomalia_tabinput2)))
         tab2 <- round(prop.table(tab1,1)*100,2) %>% as.data.frame
         tab2 <- tidyr::spread(tab2, key = Var2, value = Freq)
@@ -705,7 +633,7 @@ output$anomalia_graf_gestacao <- renderApex({
 
 
   output$anomalia_tabelagar_out <- renderReactable({
-        dadoi <- dados_nv()
+        dadoi <- dados_ac()
         dadoi <- with(dadoi,(table(reg_saude.nasc, reg_saude.res)))# %>% addmargins(.,1)
         Total <- apply(dadoi, 2, sum, na.rm = T)
         GAR <- round(Total * .15)
