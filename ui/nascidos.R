@@ -10,7 +10,6 @@
        tags$div(class = 'page-body',
         tags$div(class = 'container-xl',
         hr(),
-        verbatimTextOutput('teste'),
         fluidRow(class = 'row-deck row-cards',
                  mod_summary_card_ui('nascido_total', div_class = 'col-md-4'),
                   mod_summary_card_ui('nascido_total_prenatal', div_class = 'col-md-4'),

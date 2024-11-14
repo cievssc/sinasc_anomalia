@@ -13,6 +13,8 @@
           dplyr::left_join(., tab_regioes[,3:4], by = c('codmunres' = 'cod6'), suffix = c('.nasc', '.res')) %>%
           dplyr::left_join(., dado_estab, by = c('codestab' = 'co_cnes'))
 
+ #transformando vetor da tabela acp em factor
+ tabela_acp[,2] <- factor(tabela_acp[,2], levels = unique(tabela_acp[,2]))
 
  #----------------------------------------------
  #funções para tratamento de dados (08-nov-2024, 13:16h)

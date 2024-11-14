@@ -14,9 +14,10 @@
         fluidRow(class = 'row-deck row-cards',
                 mod_summary_card_ui('anomalia_total', div_class = 'col-md-4'),
                 mod_summary_card_ui('anomalia_prioritaria', div_class = 'col-md-4'),
-                mod_summary_card_ui('anomalia_', div_class = 'col-md-4'),
+                mod_summary_card_ui('anomalia_letal', div_class = 'col-md-4'),
                 mod_summary_card_ui('anomalia_mapa', div_class = 'col-md-12'),
-                mod_summary_card_ui('anomalia_tabela', div_class = 'col-md-12')
+                mod_summary_card_ui('anomalia_tabela_acp', div_class = 'col-md-12'),
+                mod_summary_card_ui('anomalia_tabela_letal', div_class = 'col-md-12')
 
         )
        ) #end div container

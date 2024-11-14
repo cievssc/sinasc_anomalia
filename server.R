@@ -12,5 +12,8 @@
     #hospital
     source('./server/server_hospital.R', local = T, encoding = 'UTF-8')
 
+     #anomalia
+    source('./server/server_anomalia.R', local = T, encoding = 'UTF-8')
+
     
  }) #end server function

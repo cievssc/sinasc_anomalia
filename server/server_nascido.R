@@ -642,12 +642,12 @@ output$nascido_graf_gestacao <- renderApex({
             selectInput('nascido_tabinput1', 'Linha', 
             choices = c('Ano' = 'ano', 'Região da saúde (res)' = 'reg_saude.res', '1º pré-natal' = 'cat_prenatal', 'Peso ao nascer' = 'cat_peso', 
             'Idade Gestacional' = 'cat_gestacao', 'Qtde. consultas' = 'cat_consultas', 'Apgar5' = 'cat_apgar5',
-            'Tipo de parto' = 'cat_parto'), selected = 'Ano')
+            'Tipo de parto' = 'cat_parto', 'Idade da parturiente' = 'cat_idademae'), selected = 'Ano')
             ,
             selectInput('nascido_tabinput2', 'Coluna', 
             choices = c('1º pré-natal' = 'cat_prenatal', 'Peso ao nascer' = 'cat_peso', 
             'Idade Gestacional' = 'cat_gestacao', 'Qtde. consultas' = 'cat_consultas', 'Apgar5' = 'cat_apgar5',
-            'Tipo de parto' = 'cat_parto'), selected = 'Peso ao nascer')
+            'Tipo de parto' = 'cat_parto', 'Idade da parturiente' = 'cat_idademae'), selected = 'Peso ao nascer')
             )
           ,
           column(10,
