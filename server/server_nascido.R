@@ -1,5 +1,6 @@
   #server para a aba de nascidos vivos
   #----------------------------------------------------------------------
+  
 
   #opções botões dropdown (TODO, 15-jul-24)
    output$nascido_dropopcoes <- renderUI({
@@ -192,7 +193,7 @@ class="icon icon-tabler icons-tabler-outline icon-tabler-accessible"><path strok
 </svg>')
                               )),
                               div(class = 'card-body',
-                                h3(class = 'card-title', 'Cesarianos'),
+                                h3(class = 'card-title', 'Cesariana'),
                                  uiOutput('nascido_cesario_card')
                               )
                             ) #end withTags
@@ -300,7 +301,7 @@ class="icon icon-tabler icons-tabler-outline icon-tabler-accessible"><path strok
    
    fill_color <- function(x){
           bins <- unique(as.vector(round(quantile(x, probs = c(0,0.30,0.50,0.7,0.85,0.95,1),na.rm = T),2))) #
-          if(all(bins) == 0){bins <- NA; x[x == 0] <- NA}
+          if(all(bins == 0)){bins <- NA; x[x == 0] <- NA}
           if(length(bins) == 1){bins <- c(0, bins)}
           pal <- colorBin("YlOrRd", domain = x, bins = bins)
           colorData <- pal(x)
@@ -328,7 +329,7 @@ class="icon icon-tabler icons-tabler-outline icon-tabler-accessible"><path strok
     direction = "auto")) %>% 
 
     
-    addLegend(pal = fill_color(dados_mapa$Freq)[[1]], values = fill_color(dados_mapa$Freq)[[2]], opacity = 0.7,
+    leaflet::addLegend(pal = fill_color(dados_mapa$Freq)[[1]], values = fill_color(dados_mapa$Freq)[[2]], opacity = 0.7,
      title = texto,
   position = "bottomright", layerId="colorLegend2",className = 'info legenda')   %>%
        addLayersControl(
@@ -506,7 +507,10 @@ if(input$nascido_tipomapa == '2'){
   mod_summary_card_server('nascido_peso',
     tagList(
       div(class = 'card-header',
-        h1(class = 'card-title', 'Peso ao nascer')),
+      style = 'justify-content: space-between;',
+        h1(class = 'card-title', 'Peso ao nascer'),
+        actionLink('nascido_pesolegenda', 'Legenda') #add em 29-nov-24, 10:57h
+        ),
       div(class = 'card-body',
       uiOutput('nascido_peso_texto'),
         apexchartOutput('nascido_graf_peso', height = '250px'))
@@ -553,6 +557,21 @@ if(input$nascido_tipomapa == '2'){
 
   }) #end renderapex
 
+  #modal legenda peso (add em 29-nov-24, 10:57h)
+
+  observeEvent(input$nascido_pesolegenda,{
+      showModal( 
+      modalDialog( 
+        easyClose = TRUE, 
+        p('* Baixo peso ao nascer (1.500g a 2.499g)'),
+        p('* Peso muito baixo ao nascer (1.000g a 1.499g)'), 
+        p('* Peso extremamente baixo ao nascer (até 999g)'), 
+        footer = NULL)
+      ) 
+    
+  })
+
+
    mod_summary_card_server('nascido_gestacao',
     tagList(
       div(class = 'card-header',
@@ -592,7 +611,7 @@ output$nascido_graf_gestacao <- renderApex({
  mod_summary_card_server('nascido_consulta',
     tagList(
       div(class = 'card-header',
-        h2(class = 'card-title', 'Quantidade de pré-natais / Realização da 1ª consulta')),
+        h2(class = 'card-title', 'Realização da 1ª consulta de pré-natal')),
       div(class = 'card-body',
         apexchartOutput('nascido_graf_consulta', height = '280px'))
     )
@@ -675,7 +694,7 @@ output$nascido_graf_gestacao <- renderApex({
 
 
   mod_summary_card_server('nascido_tabela_gar',
-    card_large(heading = 'Número de nascidos vivos e estimativa de gestação de alto risco, por região de saúde.',
+    card_large(heading = 'Número de nascidos vivos e estimativa de gestação de alto risco (GAR), por região de saúde.',
             tagList(
                    tabler_navtab_menu(
               tabler_navtab_menu_item("Tabela",tabName = "tabelagar",

@@ -31,9 +31,10 @@
   
   dados_hosp <- reactiveVal(NULL)
   
-            observeEvent(dados_all(),{# input$home_atualizar,
+            observe({# input$home_atualizar,
              #req(input$hospital_mapa_leaflet_groups)
              #TODO javascript para input das abas
+             req(input$current_tab == 'hospital')
              dadoi <- dados_all()
               if(input$hospital_dropdown >0){
                       dadoi <- subset(dadoi, mes %in% input$hospital_meses) #meses

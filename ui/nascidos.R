@@ -7,7 +7,7 @@
                           shinyWidgets::dropdown(style = "unite", icon = icon("gear"),  inputId = 'nascido_dropdown',
                                 uiOutput('nascido_dropopcoes'), left = T))
                                 ),
-       tags$div(class = 'page-body',
+      tags$div(class = 'page-body',
         tags$div(class = 'container-xl',
         hr(),
         fluidRow(class = 'row-deck row-cards',
