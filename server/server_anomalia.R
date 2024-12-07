@@ -368,10 +368,12 @@ stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon i
           vetor}}, .id = 'variavel') %>%
                  tidyr::spread(.,value = Freq, key = variavel )
 
-        tabela$Total <- apply(tabela[,-1], 1, sum, na.rm = T)
+        if(ncol(tabela) > 2){
+        tabela$Total <- apply(tabela[,-1], 1, sum, na.rm = T)}else{
+          tabela$Total <- tabela[,2]
+        }
         linha_total <-  c(NA, apply(tabela[,-1], 2 , sum, na.rm = T))
-        tabela <- rbind(tabela, linha_total)
-        
+        tabela <- rbind(tabela, linha_total)        
 
         reactable(tabela, pagination = F, height = '100%', elementId = 'anomalia_tabdinamica_acp')
 

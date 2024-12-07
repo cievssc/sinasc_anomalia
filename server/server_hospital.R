@@ -252,7 +252,7 @@ stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin
     dadoi_cesariano <- aggregate(ones ~ codestab + reg_saude.nasc + no_fantasia + cat_parto, data = dadoi, FUN = sum, na.rm = T) %>%
     tidyr::spread(., key = cat_parto, value = ones)
     dadoi_cesariano$total <- apply(dadoi_cesariano[,4:5], 1 ,sum, na.rm = T)
-    dadoi_cesariano$perc  <- with(dadoi_cesariano, round(Cesário*100/total,2))
+    dadoi_cesariano$perc  <- with(dadoi_cesariano, round(Cesariana*100/total,2))
     dadoi_cesariano <- dadoi_cesariano[,c(1,2,3,6,7)]
 
     dadoi_consultas <- aggregate(ones ~ codestab , data = dadoi[which(dadoi$cat_consultas == '7 ou mais'),], sum, na.rm = T)
