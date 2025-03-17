@@ -27,3 +27,8 @@
     any(z %in% tabela_acp)
   })
  }
+
+
+ #função para obter data de atualização
+ data_atual <- file.info('sinasc_data.RData')$mtime
+ data_atual <- format(data_atual, '%d-%m-%Y')

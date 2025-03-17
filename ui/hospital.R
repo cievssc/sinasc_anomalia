@@ -5,7 +5,7 @@
           page_heading(title = 'Hospitais', pretitle = 'Painel de informações Sinasc',
           tags$div( class ="col-auto ms-auto d-print-none",
                           shinyWidgets::dropdown(style = "unite", icon = icon("gear"),  inputId = 'hospital_dropdown',
-                                uiOutput('hospital_dropopcoes'), left = T))
+                                uiOutput('hospital_dropopcoes'), left = F))
                                 ),
        tags$div(class = 'page-body',
         tags$div(class = 'container-xl',

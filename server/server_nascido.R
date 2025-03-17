@@ -6,7 +6,7 @@
    output$nascido_dropopcoes <- renderUI({
                                tagList(
                                 div(style = 'z-index: 50;',
-                                selectInput('nascido_regiao', 'Região: ', choices = c('Todas', unique(tab_regioes$reg_saude )), 
+                                selectInput('nascido_regiao', 'Região: ', choices = c('Todas', unique(tab_regioes$reg_saude)), 
                                   selected = c('Todas'), multiple = F),
                                 selectInput('nascido_peso', 'Peso:', choices = levels(dados$cat_peso), 
                                   selected = levels(dados$cat_peso), multiple = T),
@@ -32,15 +32,20 @@
   
   dados_all <- eventReactive(input$head_atualizar, {
                subset(dados, ano >= input$head_daterange[1] & ano <= input$head_daterange[2])
-  }, ignoreInit = T) #dadoscomum ás duas abas
+  }, ignoreNULL = F)#ignoreInit = T) #dadoscomum ás duas abas
 
-  dados_nv <- reactiveVal(dados[which(dados$ano <= max(dados$ano) & dados$ano >= max(dados$ano) - 3),])
+  #dados_nv <- reactiveVal(dados[which(dados$ano <= max(dados$ano) & dados$ano >= max(dados$ano) - 3),])
+  dados_nv <- reactiveVal(NULL)
   
 
-            observeEvent(dados_all(),{# input$home_atualizar,
+            #observeEvent(dados_all(),{# input$home_atualizar,
              #req(input$nascido_mapa_leaflet_groups)
+             #observe({
+             #req(input$current_tab == 'nascidos_vivos')
+             observeEvent(c(input$head_atualizar),{ #
+             req(input$current_tab == 'nascidos_vivos')
                    dadoi <- dados_all()
-                   if(input$nascido_dropdown >0){
+                   if(input$nascido_dropdown >0 ){
                       dadoi <- subset(dadoi, mes %in% input$nascido_meses) #meses
                       
                       if(input$nascido_regiao != 'Todas'){

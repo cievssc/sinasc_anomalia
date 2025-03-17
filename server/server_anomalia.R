@@ -33,8 +33,9 @@
   
   filtro_acp <- reactive({tabela_acp}) #TODO incrementar o filtro de ACP ()
 
-            observeEvent(dados_all(),{# input$home_atualizar,
+            observeEvent(c(input$head_atualizar,  input$current_tab == 'anomalia'),{# input$home_atualizar,
              #req(input$anomalia_mapa_leaflet_groups)
+             req(input$current_tab == 'anomalia')
                    dadoi <- dados_all()
                    if(input$anomalia_dropdown >0){
                       dadoi <- subset(dadoi, mes %in% input$anomalia_meses) #meses

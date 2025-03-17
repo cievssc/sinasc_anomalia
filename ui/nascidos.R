@@ -5,7 +5,8 @@
           page_heading(title = 'Síntese dos registros de Nascidos Vivos', pretitle = 'Painel de informações Sinasc',
           tags$div( class ="col-auto ms-auto d-print-none",
                           shinyWidgets::dropdown(style = "unite", icon = icon("gear"),  inputId = 'nascido_dropdown',
-                                uiOutput('nascido_dropopcoes'), left = T))
+                                uiOutput('nascido_dropopcoes'), left = F),
+                                 tags$div(class = 'page-pretitle', paste('Atualizado em', data_atual)))
                                 ),
       tags$div(class = 'page-body',
         tags$div(class = 'container-xl',
