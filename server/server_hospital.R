@@ -38,7 +38,7 @@
              #req(input$hospital_mapa_leaflet_groups)
              #TODO javascript para input das abas
              observeEvent(c(input$head_atualizar, input$current_tab == 'hospital'),{ #
-             req(input$current_tab == 'hospital')
+             #req(input$current_tab == 'hospital')
              dadoi <- dados_all()
 
               if(input$hospital_dropdown >0){
@@ -81,7 +81,7 @@
                     dados_hosp(dadoi)
                    }
 
-                          }) #end observeEvent dados hosp
+                          }, priority = -10) #end observeEvent dados hosp
 
  #========================================================================
   #cards
@@ -191,15 +191,15 @@ stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin
                     )
                   )
                                
-  output$hospital_mapa_leaflet <- renderLeaflet({  hospital_leaflet()
+  output$hospital_mapa_leaflet <- renderLeaflet({hospital_leaflet() #mapas #
         })
         
   
   #observeEvent(dados_hosp(),{ #c(input$head_atualizar, input$current_tab == 'hospital')
    #observeEvent(c(input$head_atualizar, input$current_tab == 'hospital'),{
-   hospital_leaflet <- eventReactive(c(input$head_atualizar, input$current_tab == 'hospital'),{
+   hospital_leaflet <- reactive({#eventReactive(c(input$head_atualizar,input$current_tab == 'hospital'),{
    #observe({
-   req(input$current_tab == 'hospital')
+  # req(input$current_tab == 'hospital')
    req(!is.null(dados_hosp()))
    dadoi <- dados_hosp()
    dadoi$ones <- 1
@@ -220,7 +220,7 @@ stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin
    
    linha <- lapply(1:nrow(rede), 
                     function(i){sp::Lines(list(sp::Line(data.table::rbindlist(list(rede[i,2:3], rede[i,4:5])))), as.character(i))}) %>% sp::SpatialLines(.)
-
+   
     labellss <- sprintf(
   "<strong>%s</strong><br/> %s %s <br/> %s %s" , #  people / mi<sup>2</sup>",
    dado_hosp$no_fantasia, 'Total NV: ', dado_hosp$ones, '% parto Vaginal: ', dado_hosp$perc) %>% lapply(htmltools::HTML)
@@ -231,7 +231,7 @@ stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin
         #addProviderTiles("OpenStreetMap.Mapnik") %>% leaflet()
     leaflet() %>%
         addProviderTiles(providers$CartoDB.Positron,  options = providerTileOptions(minZoom = 7)) %>%
-        setView(lat = -27.5, lng = -51, zoom = 7)  %>% 
+        setView(lat = -27.5, lng = -51, zoom = 7) %>% 
         clearControls() %>% clearShapes() %>% clearMarkers() %>%
        addCircleMarkers(data = dado_hosp, lng = ~nu_longitude, lat = ~nu_latitude, radius = ~scales::rescale(ones, c(5,20)), stroke = F, 
         color = ~natu_color(natureza), fillOpacity = .6,
@@ -254,7 +254,7 @@ stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin
            overlayGroups = 'Rede de nascimentos',
             options = layersControlOptions(collapsed = F), position = 'bottomleft' )  
                       
-  })#, priority = -10, ignoreNULL = F) #observe 
+  })#, ignoreNULL = F) #observe 
 
  #-------------------------------------------------------------------------
  #tabelas

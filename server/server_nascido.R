@@ -42,8 +42,8 @@
              #req(input$nascido_mapa_leaflet_groups)
              #observe({
              #req(input$current_tab == 'nascidos_vivos')
-             observeEvent(c(input$head_atualizar),{ #
-             req(input$current_tab == 'nascidos_vivos')
+             observeEvent(c(input$head_atualizar,input$current_tab == 'nascidos_vivos'),{ #
+             #req(input$current_tab == 'nascidos_vivos')
                    dadoi <- dados_all()
                    if(input$nascido_dropdown >0 ){
                       dadoi <- subset(dadoi, mes %in% input$nascido_meses) #meses
