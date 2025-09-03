@@ -41,7 +41,5 @@
  source('./www/tablerdash/cards.R')
  source('./www/tablerdash/icons.R')
  
- #conector ao Boa Vista
- #conn <- function(){DBI::dbConnect(RPostgres::Postgres(),  host = '172.22.34.56', port = 5432, user = 'dimitri',
-  #                   password = 'cievs666', dbname = 'eventos')} 
+
  

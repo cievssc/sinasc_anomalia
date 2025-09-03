@@ -5,8 +5,8 @@
    output$hospital_dropopcoes <- renderUI({
                                tagList(
                                 div(style = 'z-index: 50;',
-                                selectInput('hospital_natureza', 'Adm. Unidade Saúde', choices = c('Público', 'Privado'), 
-                                  selected = c('Público', 'Privado'),multiple = T),
+                                selectInput('hospital_natureza', 'Adm. Unidade Saúde', choices = c('Pública', 'Privada'), 
+                                  selected = c('Público', 'Privada'),multiple = T),
 
                                 selectInput('hospital_regiao', 'Região: ', choices = c('Todas', unique(tab_regioes$reg_saude)), 
                                   selected = c('Todas'), multiple = F),
@@ -130,7 +130,7 @@ stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin
 </svg>')
                               )),
                               div(class = 'card-body',
-                                h3(class = 'card-title', 'NV em estabelecimentos públicos'),
+                                h3(class = 'card-title', 'NV em estabelecimentos de natureza pública'),
                                  uiOutput('hospital_totalpub_card')
                               )
                             ) #end withTags
@@ -138,7 +138,7 @@ stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin
   
   output$hospital_totalpub_card <- renderUI({
                       dadoi <- dados_hosp()
-                      dadoi_pub <- nrow(dadoi[which(dadoi$natureza == 'Público'),])
+                      dadoi_pub <- nrow(dadoi[which(dadoi$natureza == 'Pública'),])
                       tagList(
                       h1(dadoi_pub),
                       p(paste0('representando ',round(dadoi_pub*100/nrow(dadoi),2),'% do total de NV'))
@@ -163,7 +163,7 @@ stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin
 </svg>')
                               )),
                               div(class = 'card-body',
-                                h3(class = 'card-title', 'NV em estabelecimentos privados'),
+                                h3(class = 'card-title', 'NV em estabelecimentos de natureza privada'),
                                  uiOutput('hospital_totalpriv_card')
                               )
                             ) #end withTags
@@ -171,7 +171,7 @@ stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin
   
   output$hospital_totalpriv_card <- renderUI({
                       dadoi <- dados_hosp()
-                      dadoi_priv <- nrow(dadoi[which(dadoi$natureza == 'Privado'),])
+                      dadoi_priv <- nrow(dadoi[which(dadoi$natureza == 'Privada'),])
                       tagList(
                       h1(dadoi_priv),
                       p(paste0('representando ',round(dadoi_priv*100/nrow(dadoi),2),'% do total de NV'))
@@ -210,7 +210,7 @@ stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin
    dado_hosp <- dplyr::left_join(dado_hosp, dado_vag, by = 'codestab', suffix = c('', '_vag'))
    dado_hosp$perc <- with(dado_hosp, round(ones_vag*100/ones,2))
    dado_hosp[is.na(dado_hosp)] <- 0
-   dado_hosp$natureza <- factor(dado_hosp$natureza, levels = c('Público', 'Privado'))
+   dado_hosp$natureza <- factor(dado_hosp$natureza, levels = c('Pública', 'Privada'))
 
  #redes
    dadoi <- dadoi[with(dadoi, codmunres > 420000 & codmunres <= 429999),]

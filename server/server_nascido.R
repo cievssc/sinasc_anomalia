@@ -318,7 +318,7 @@ class="icon icon-tabler icons-tabler-outline icon-tabler-accessible"><path strok
    leafletProxy('nascido_mapa_leaflet') %>%
         #addProviderTiles("OpenStreetMap.Mapnik") %>% leaflet()
         addProviderTiles(providers$CartoDB.Positron,  options = providerTileOptions(minZoom = 7)) %>%
-        setView(lat = -27.5, lng = -51, zoom = 7)  %>% clearControls() %>% clearShapes() %>%
+      #  setView(lat = -27.5, lng = -51, zoom = 7)  %>% clearControls() %>% clearShapes() %>%
         addPolygons(data = dados_mapa,  color = "#444444", fillColor =  fill_color(dados_mapa$Freq)[[2]], 
         stroke = T, smoothFactor = 0.5, fillOpacity = 0.8, weight = 1.5,
     highlight = highlightOptions(
@@ -349,7 +349,7 @@ class="icon icon-tabler icons-tabler-outline icon-tabler-accessible"><path strok
   output$nascido_tabmapa <- renderReactable(({
         dadoi <- dados_tabmapa()
         if(names(dadoi)[1] == 'codmunres'){
-          municipio <- as.data.frame(municipiosf[,c('cod6','Municipio')])[,-3]
+          municipio <- as.data.frame(municipiosf[,c('cod6','name_muni')])[,-3]
           dadoi[,1] <- as.numeric(dadoi[,1])
           dadoi <- dplyr::left_join(municipio,dadoi,  by = c('cod6' = 'codmunres'))
           dadoi <- dadoi[,-1]
