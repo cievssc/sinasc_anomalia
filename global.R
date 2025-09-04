@@ -30,11 +30,7 @@
  source('./www/apexchart/general_apex.R')
  
  #echarts (add em 13-jun-2023)
- source('./www/echarts/general_echarts.R')
- 
- #plotly
- #source('./www/highcharts/generalhigh.R')
- #source('./www/highcharts/plotlyjs.R')
+ #source('./www/echarts/general_echarts.R')
  
  #carregando funçes dashboard
  source('./www/tablerdash/funcoes_dashboard.R')
